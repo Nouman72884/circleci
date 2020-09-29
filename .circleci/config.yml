@@ -36,9 +36,9 @@ workflows:
     jobs:
       - test
       - build:
+          context: Env
           requires:
             - test
-            - context: Env
           filters:
             branches:
               only: master
