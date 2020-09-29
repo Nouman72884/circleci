@@ -5,6 +5,7 @@ jobs:
       - image: python:3.7.1
     steps:
       - checkout
+    context: Env
   build:
     docker:
       - image: docker:18.06.1-ce-git
@@ -19,6 +20,9 @@ jobs:
       - run: 
           name: Build image and push
           command: |
+            export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
             REGION="us-east-1"
             ECR_URL="020046395185.dkr.ecr.$REGION.amazonaws.com/circleci-demo"
             BUILD_NUMBER="${BUILD_NUMBER:-$(date +%s)}"
