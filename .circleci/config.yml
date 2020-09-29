@@ -26,10 +26,9 @@ jobs:
             ECR_URL="020046395185.dkr.ecr.$REGION.amazonaws.com/circleci-demo"
             BUILD_NUMBER="${BUILD_NUMBER:-$(date +%s)}"
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
-            docker build -t $ECR_URL:$BUILD_NUMBER .
-            docker push $ECR_URL:$BUILD_NUMBER
-            docker tag $ECR_URL:$BUILD_NUMBER $ECR_URL:latest
+            docker build -t $ECR_URL:latest .
             docker push $ECR_URL:latest
+
 workflows:
   version: 2.1
   build_and_deploy:
