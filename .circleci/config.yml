@@ -19,9 +19,9 @@ jobs:
       - run: 
           name: Build image and push
           command: |
-            aws configure --profile AWS set aws_access_key_id ${AWS_ACCESS_KEY_ID}
-            aws configure --profile AWS set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
-            aws configure --profile AWS set aws_default_region ${AWS_DEFAULT_REGION}
+            aws configure set region us-east-1 --profile credentials
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile credentials
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile credentials 
             REGION="us-east-1"
             ECR_URL="020046395185.dkr.ecr.$REGION.amazonaws.com/circleci-demo"
             BUILD_NUMBER="${BUILD_NUMBER:-$(date +%s)}"
