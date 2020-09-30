@@ -4,14 +4,6 @@
         {
             "name": "circleci-demo-service-prod",
             "image": "020046395185.dkr.ecr.us-east-1.amazonaws.com/circleci-demo",
-            "cpu": 128,
-            "memoryReservation": 128,
-            "portMappings": [
-                {
-                    "containerPort": 5000,
-                    "protocol": "tcp"
-                }
-            ],
             "essential": true
         }
     ]
