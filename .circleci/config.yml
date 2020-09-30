@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  master:
+  build_master:
     docker:
       - image: alpine
     steps:
@@ -32,7 +32,7 @@ jobs:
           command: |
             aws ecs create-service --cli-input-json file://service.json
             
-  dev:
+  build_dev:
     docker:
       - image: alpine
     steps:
