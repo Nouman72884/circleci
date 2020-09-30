@@ -1,0 +1,44 @@
+version: 2.1
+jobs:        
+  dev:
+    docker:
+      - image: alpine
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.12
+      - run:
+          name: Install dependencies
+          command: |
+            apk add docker-cli
+            apk add py-pip
+            pip install awscli
+      - run: 
+          name: Build image and push
+          command: | 
+            REGION="us-east-1"
+            ECR_URL="020046395185.dkr.ecr.$REGION.amazonaws.com/circleci-demo"
+            BUILD_NUMBER="${BUILD_NUMBER:-$(date +%s)}"
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
+            docker build -t $ECR_URL:${BUILD_NUMBER} .
+            docker push $ECR_URL:${BUILD_NUMBER} 
+      - run: 
+          name: create task-definition
+          command: |
+            sed -i "s/TAG/${BUILD_NUMBER}/g" task-definition.json
+            aws ecs register-task-definition --cli-input-json file://task-definition.json
+      - run: 
+          name: create service
+          command: |
+            aws ecs create-service --cli-input-json file://service.json
+          
+
+workflows:
+  version: 2.1
+  build_dev:
+    jobs:
+      - dev:
+          context: dev
+          filters:
+            branches:
+              only: dev
