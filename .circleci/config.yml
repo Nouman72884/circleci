@@ -22,58 +22,22 @@ jobs:
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
             docker build -t $ECR_URL:${BUILD_NUMBER} .
             docker push $ECR_URL:${BUILD_NUMBER} 
-
-  deploy:
-    docker:
-      - image: alpine
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk add py-pip
-            pip install awscli
       - run: 
-          name: create task-def and service
+          name: create task-definition
           command: |
             aws ecs register-task-definition --cli-input-json file://task-definition.json
-
-
-  service:
-    docker:
-      - image: alpine
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk add py-pip
-            pip install awscli
       - run: 
-          name: create task-def and service
+          name: create service
           command: |
             aws ecs create-service --cli-input-json file://service.json
 
+  
 workflows:
   version: 2.1
   build_and_deploy:
     jobs:
       - build:
           context: Env
-          filters:
-            branches:
-              only: master
-      - deploy:
-          context: Vars
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
-      - service:
-          context: Vars
-          requires: 
-            - deploy
           filters:
             branches:
               only: master
