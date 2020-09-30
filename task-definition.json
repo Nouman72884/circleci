@@ -4,6 +4,7 @@
         {
             "name": "circleci-demo-service-dev",
             "image": "020046395185.dkr.ecr.us-east-1.amazonaws.com/circleci-demo:TAG",
+            "memory": 128,
             "essential": true
         }
     ]
