@@ -1,8 +1,7 @@
 {
-    "cluster": "ecs-circleci-demo",
-    "serviceName": "circleci-demo-service",
-    "taskDefinition": "circleci-demo-service",
-    "role": "ecsServiceRole",
+    "cluster": "prod",
+    "serviceName": "circleci-demo-service-prod",
+    "taskDefinition": "circleci-demo-service-prod",
     "launchType": "EC2",
     "desiredCount": 1
 }
