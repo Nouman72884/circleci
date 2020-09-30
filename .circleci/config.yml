@@ -24,13 +24,13 @@ jobs:
     docker:
       - image: docker:latest
     steps:
-      # - checkout
-      # - setup_remote_docker
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       apk add py-pip
-      #       pip install awscli
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk add py-pip
+            pip install awscli
       - run: 
           name: register task-def
           command: |
