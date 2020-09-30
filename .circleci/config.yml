@@ -28,6 +28,14 @@ jobs:
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
             docker build -t $ECR_URL:latest .
             docker push $ECR_URL:latest
+      
+  build:
+    steps:
+      - checkout
+      - run: 
+          name: create task-def and service
+          command: |
+            aws ecs register-task-definition --cli-input-json file://task-definition.json
 
 workflows:
   version: 2.1
