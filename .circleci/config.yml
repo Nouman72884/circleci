@@ -36,21 +36,21 @@ jobs:
           command: |
             aws ecs register-task-definition --cli-input-json file://task-definition.json
 
-  # service:
-  #   docker:
-  #     - image: docker:18.06.1-ce-git
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           apk add py-pip
-  #           pip install awscli
-  #     - run: 
-  #         name: create service
-  #         command: |
-  #           aws ecs create-service --cli-input-json file://service.json
+  service:
+    docker:
+      - image: alpine
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk add py-pip
+            pip install awscli
+      - run: 
+          name: create service
+          command: |
+            aws ecs create-service --cli-input-json file://service.json
 
 workflows:
   version: 2.1
@@ -68,10 +68,10 @@ workflows:
           filters:
             branches:
               only: dev
-      # - service:
-      #     context: Env
-      #     requires:
-      #       - deploy
-      #     filters:
-      #       branches:
-      #         only: dev
+      - service:
+          context: Env
+          requires:
+            - deploy
+          filters:
+            branches:
+              only: dev
