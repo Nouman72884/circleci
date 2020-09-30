@@ -21,8 +21,8 @@ jobs:
             docker build -t $ECR_URL:${BUILD_NUMBER} .
             docker push $ECR_URL:${BUILD_NUMBER}
   deploy:
-    # docker:
-    #   - image: docker:18.06.1-ce-git
+    docker:
+      - image: docker:latest
     steps:
       # - checkout
       # - setup_remote_docker
