@@ -33,7 +33,6 @@ jobs:
       - run: 
           name: register task-def
           command: |
-            sed -i 's/${BUILD_NUMBER}/TAG/g' task-definition.json
             aws ecs register-task-definition --cli-input-json file://task-definition.json
 
   service:
