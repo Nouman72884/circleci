@@ -40,7 +40,7 @@ jobs:
             apk add py-pip
             pip install awscli
       - run: 
-          name: create task-def and service
+          name: register task-def
           command: |
             aws ecs register-task-definition --cli-input-json file://task-definition.json
 
@@ -56,7 +56,7 @@ jobs:
             apk add py-pip
             pip install awscli
       - run: 
-          name: create task-def and service
+          name: create service
           command: |
             aws ecs create-service --cli-input-json file://service.json
 
