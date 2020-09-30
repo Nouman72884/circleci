@@ -8,34 +8,44 @@ jobs:
       - setup_remote_docker
       - run:
           name: Install dependencies
-          command: |
+          command: 
             pip install awscli
       - run: 
           name: Build image and push
-          command: | 
+          command: |
             REGION="us-east-1"
             ECR_URL="020046395185.dkr.ecr.$REGION.amazonaws.com/circleci-demo"
             BUILD_NUMBER="${BUILD_NUMBER:-$(date +%s)}"
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
             docker build -t $ECR_URL:${BUILD_NUMBER} .
-            docker push $ECR_URL:${BUILD_NUMBER}     
+            docker push $ECR_URL:${BUILD_NUMBER}
   # deploy:
+  #   docker:
+  #     - image: docker:18.06.1-ce-git
   #   steps:
-  #     # - run:
-  #     #     name: Install dependencies
-  #     #     command: |
-  #     #       pip install awscli
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           apk add py-pip
+  #           pip install awscli
   #     - run: 
   #         name: register task-def
   #         command: |
   #           aws ecs register-task-definition --cli-input-json file://task-definition.json
 
   # service:
+  #   docker:
+  #     - image: docker:18.06.1-ce-git
   #   steps:
-  #     # - run:
-  #     #     name: Install dependencies
-  #     #     command: |
-  #     #       pip install awscli
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           apk add py-pip
+  #           pip install awscli
   #     - run: 
   #         name: create service
   #         command: |
@@ -47,8 +57,6 @@ workflows:
     jobs:
       - build:
           context: Env
-          requires:
-            - test
           filters:
             branches:
               only: dev
