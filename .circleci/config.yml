@@ -27,11 +27,11 @@ jobs:
             BUILD_NUMBER="${BUILD_NUMBER:-$(date +%s)}"
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
             docker build -t $ECR_URL:latest .
-            docker push $ECR_URL:latest
-      
+            docker push $ECR_URL:latest      
   deploy:
+    docker:
+      - image: docker:18.06.1-ce-git
     steps:
-      - checkout
       - run: 
           name: create task-def and service
           command: |
