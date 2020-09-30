@@ -57,7 +57,7 @@ jobs:
       - run: 
           name: create task-definition
           command: |
-            sed -i 's/TAG/$BUILD_NUMBER/g' input.txt
+            sed -i 's/TAG/$BUILD_NUMBER/g' task-definition.json
             aws ecs register-task-definition --cli-input-json file://task-definition.json
       - run: 
           name: create service
