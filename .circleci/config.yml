@@ -23,46 +23,36 @@ jobs:
             docker build -t $ECR_URL:${BUILD_NUMBER} .
             docker push $ECR_URL:${BUILD_NUMBER} 
 
+  deploy:
+    docker:
+      - image: alpine
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add py-pip
+            pip install awscli
       - run: 
-        name: create task-def and service
-        command: |
-          aws ecs register-task-definition --cli-input-json file://task-definition.json
+          name: create task-def and service
+          command: |
+            aws ecs register-task-definition --cli-input-json file://task-definition.json
 
+
+  service:
+    docker:
+      - image: alpine
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add py-pip
+            pip install awscli
       - run: 
-        name: create task-def and service
-        command: |
-          aws ecs create-service --cli-input-json file://service.json
-
-  # deploy:
-  #   docker:
-  #     - image: alpine
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           apk add py-pip
-  #           pip install awscli
-  #     - run: 
-  #         name: create task-def and service
-  #         command: |
-  #           aws ecs register-task-definition --cli-input-json file://task-definition.json
-
-
-  # service:
-  #   docker:
-  #     - image: alpine
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           apk add py-pip
-  #           pip install awscli
-  #     - run: 
-  #         name: create task-def and service
-  #         command: |
-  #           aws ecs create-service --cli-input-json file://service.json
+          name: create task-def and service
+          command: |
+            aws ecs create-service --cli-input-json file://service.json
 
 workflows:
   version: 2.1
@@ -73,17 +63,17 @@ workflows:
           filters:
             branches:
               only: master
-      # - deploy:
-      #     context: Vars
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         only: master
-      # - service:
-      #     context: Vars
-      #     requires: 
-      #       - deploy
-      #     filters:
-      #       branches:
-      #         only: master
+      - deploy:
+          context: Vars
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - service:
+          context: Vars
+          requires: 
+            - deploy
+          filters:
+            branches:
+              only: master
