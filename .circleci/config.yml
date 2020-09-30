@@ -8,7 +8,8 @@ jobs:
       - setup_remote_docker
       - run:
           name: Install dependencies
-          command: 
+          command: |
+            apk add py-pip
             pip install awscli
       - run: 
           name: Build image and push
