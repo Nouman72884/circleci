@@ -55,7 +55,7 @@ jobs:
             docker build -t $ECR_URL:${BUILD_NUMBER} .
             docker push $ECR_URL:${BUILD_NUMBER} 
       - run: 
-          name: create task-definition
+          name: register task-definition
           command: |
             sed -i "s/TAG/${BUILD_NUMBER}/g" task-definition.json
             aws ecs register-task-definition --cli-input-json file://task-definition.json
