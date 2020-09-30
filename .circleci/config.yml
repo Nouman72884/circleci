@@ -70,11 +70,13 @@ workflows:
           context: prod
           filters:
             branches:
-              only: master
+              only: 
+                - master
   build_dev:
     jobs:
       - dev:
           context: dev
           filters:
             branches:
-              only: dev
+              only: 
+                - dev
