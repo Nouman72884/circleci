@@ -80,9 +80,9 @@ workflows:
             branches:
               only: dev
       - service:
-        context: Env
-        requires:
-          - deploy
-        filters:
-          branches:
-            only: dev
+          context: Env
+          requires:
+            - deploy
+          filters:
+            branches:
+              only: dev
