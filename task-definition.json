@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "circleci-demo-service-prod",
-            "image": "020046395185.dkr.ecr.us-east-1.amazonaws.com/circleci-demo",
+            "image": "020046395185.dkr.ecr.us-east-1.amazonaws.com/circleci-demo:TAG",
             "essential": true
         }
     ]
