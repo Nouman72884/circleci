@@ -24,8 +24,6 @@ jobs:
     docker:
       - image: alpine
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
           name: Install dependencies
           command: |
@@ -40,8 +38,6 @@ jobs:
     docker:
       - image: alpine
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
           name: Install dependencies
           command: |
