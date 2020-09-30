@@ -57,8 +57,6 @@ workflows:
     jobs:
       - build:
           context: Env
-          requires:
-            - test
           filters:
             branches:
               only: master
