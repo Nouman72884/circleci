@@ -44,7 +44,7 @@ jobs:
           command: |
             aws ecs register-task-definition --cli-input-json file://task-definition.json
 
-  deploy:
+  service:
     docker:
       - image: docker:18.06.1-ce-git
     steps:
