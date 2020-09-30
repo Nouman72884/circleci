@@ -32,6 +32,13 @@ jobs:
     docker:
       - image: docker:18.06.1-ce-git
     steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk add py-pip
+            pip install awscli
       - run: 
           name: create task-def and service
           command: |
