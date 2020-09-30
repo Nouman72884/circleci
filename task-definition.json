@@ -1,8 +1,8 @@
 {
-    "family": "circleci-demo-service",
+    "family": "circleci-demo-service-dev",
     "containerDefinitions": [
         {
-            "name": "circleci-demo-service",
+            "name": "circleci-demo-service-dev",
             "image": "020046395185.dkr.ecr.us-east-1.amazonaws.com/circleci-demo:latest",
             "cpu": 128,
             "memoryReservation": 128,
