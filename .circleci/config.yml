@@ -73,9 +73,11 @@ workflows:
           context: prod
           filters:
             branches:
-              only: master
-      - dev:
-          context: dev
-          filters:
-            branches:
-              only: dev
+              only: 
+                - master
+                - dev
+      # - dev:
+      #     context: dev
+      #     filters:
+      #       branches:
+      #         only: dev
