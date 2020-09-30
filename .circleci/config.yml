@@ -30,8 +30,7 @@ jobs:
       - run: 
           name: create service
           command: |
-            aws ecs create-service --cli-input-json file://service.json
-            
+            aws ecs create-service --cli-input-json file://service.json          
   dev:
     docker:
       - image: alpine
@@ -63,8 +62,6 @@ jobs:
           name: create service
           command: |
             aws ecs create-service --cli-input-json file://service.json
-          
-
 workflows:
   version: 2.1
   build_master:
