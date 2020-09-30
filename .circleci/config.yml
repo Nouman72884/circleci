@@ -22,7 +22,7 @@ jobs:
             docker push $ECR_URL:${BUILD_NUMBER}
   deploy:
     docker:
-      - image: docker:latest
+      - image: alpine
     steps:
       - checkout
       - setup_remote_docker
