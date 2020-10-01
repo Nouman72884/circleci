@@ -1,5 +1,6 @@
 {
     "family": "circleci-demo-service-prod",
+    "taskRoleArn": "arn:aws:iam::020046395185:role/default-ECS-TaskDefinitionRole",
     "executionRoleArn": "arn:aws:iam::020046395185:role/default-ECS-TaskDefinitionRole",
     "containerDefinitions": [
         {
