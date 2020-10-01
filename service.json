@@ -1,5 +1,5 @@
 {
-    "cluster": "prod",
+    "cluster": "default-ECS-Cluster",
     "serviceName": "circleci-demo-service-prod",
     "taskDefinition": "circleci-demo-service-prod",
     "launchType": "EC2",
