@@ -23,9 +23,11 @@ jobs:
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
             docker build -t $ECR_URL:${BUILD_NUMBER} .
             docker push $ECR_URL:${BUILD_NUMBER} 
+            echo printenv
       - run: 
           name: create task-definition
           command: |
+            echo printenv
             echo "build numbe ris: ${BUILD_NUMBER}"
             sed -i -e "s/TAG/${BUILD_NUMBER}/g" task-definition.json
             aws ecs register-task-definition --cli-input-json file://task-definition.json
