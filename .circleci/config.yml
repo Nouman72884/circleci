@@ -27,8 +27,8 @@ jobs:
       - run: 
           name: create task-definition
           command: |
-            printenv
-            echo "build numbe ris: ${BUILD_NUMBER}"
+            env
+            echo "build numbe ris: ${env.BUILD_NUMBER}"
             sed -i -e "s/TAG/${BUILD_NUMBER}/g" task-definition.json
             aws ecs register-task-definition --cli-input-json file://task-definition.json
       - run: 
