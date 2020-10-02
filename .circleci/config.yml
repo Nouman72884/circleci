@@ -18,7 +18,7 @@ jobs:
           command: | 
             REGION="us-east-1"
             ECR_URL="020046395185.dkr.ecr.$REGION.amazonaws.com/circleci-demo"
-            export BUILD_NUMBER="${BUILD_NUMBER:-$(date +%s)}"
+            export BUILD_NUMBER="$(echo $CIRCLE_SHA1 | head -c 8)"
             echo "${BUILD_NUMBER}"
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
             docker build -t $ECR_URL:${BUILD_NUMBER} .
@@ -28,7 +28,7 @@ jobs:
           name: create task-definition
           command: |
             env
-            echo "build numbe ris: ${env.BUILD_NUMBER}"
+            echo "build numbe is: ${BUILD_NUMBER}"
             sed -i -e "s/TAG/${BUILD_NUMBER}/g" task-definition.json
             aws ecs register-task-definition --cli-input-json file://task-definition.json
       - run: 
