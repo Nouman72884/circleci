@@ -94,6 +94,8 @@ workflows:
     jobs:
       - build:
           context: prod
+          requires:
+            - plan_approve_apply_master
           filters:
             branches:
               only: 
@@ -102,6 +104,8 @@ workflows:
     jobs:
       - build:
           context: dev
+          requires: 
+            - plan_approve_apply_dev
           filters:
             branches:
               only: 
