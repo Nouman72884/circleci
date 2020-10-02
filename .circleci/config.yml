@@ -32,6 +32,7 @@ jobs:
             wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
             unzip terraform_0.12.21_linux_amd64.zip && rm terraform_0.12.21_linux_amd64.zip
             mv terraform /usr/bin/terraform
+            cd environment
             terraform apply -auto-approve tfapply
       - persist_to_workspace:
           root: .
@@ -51,6 +52,7 @@ jobs:
             wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
             unzip terraform_0.12.21_linux_amd64.zip && rm terraform_0.12.21_linux_amd64.zip
             mv terraform /usr/bin/terraform
+            cd environment
             terraform plan -destroy -out tfdestroy -var-file dev.tfvars
       - persist_to_workspace:
           root: .
@@ -70,6 +72,7 @@ jobs:
             wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
             unzip terraform_0.12.21_linux_amd64.zip && rm terraform_0.12.21_linux_amd64.zip
             mv terraform /usr/bin/terraform
+            cd environment
             terraform apply -auto-approve tfdestroy
 
   build:
