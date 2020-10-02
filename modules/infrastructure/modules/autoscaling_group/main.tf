@@ -1,3 +1,9 @@
+data "template_file" "userdata_eurus" {
+  template=templatefile("template/userdata_eurus.sh", {
+   EcsClusterName = var.EcsClusterName
+})
+}
+
 resource "aws_launch_configuration" "LaunchConfiguration" {
   name_prefix     = "${terraform.workspace}-${var.EnvName}"
   iam_instance_profile = var.EC2InstanceProfile
@@ -12,7 +18,7 @@ resource "aws_launch_configuration" "LaunchConfiguration" {
   lifecycle {
 create_before_destroy = true
 }
-  user_data = var.UserData
+  user_data = data.template_file.userdata_eurus.rendered
   
 }
 

@@ -5,4 +5,4 @@ variable "KeyPair" {}
 variable "InstanceSecurityGroupId" {}
 variable "PublicSubnetId" {}
 variable "EC2InstanceProfile" {}
-variable "UserData" {}
+variable "EcsClusterName" {}
