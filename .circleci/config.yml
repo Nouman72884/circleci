@@ -116,10 +116,10 @@ workflows:
             branches:
               only: 
                 - master
-      - hold-apply:
-          type: approval
-          requires:
-            - init-plan
+      # - hold-apply:
+      #     type: approval
+      #     requires:
+      #       - init-plan
       - apply:
           context: prod
           filters:
@@ -127,7 +127,7 @@ workflows:
               only: 
                 - master
           requires:
-            - hold-apply
+            - init-plan
       - build:
           context: prod
           filters:
