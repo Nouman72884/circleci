@@ -21,6 +21,7 @@ jobs:
           name: terraform
           command: |
             cd environment
+            terraform init
             terraform apply --var-file=dev.tfvars
 
   build:
