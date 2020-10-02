@@ -13,6 +13,8 @@ jobs:
             terraform plan --var-file=dev.tfvars
 
   apply:
+    environment:
+      BASH_ENV: /root/.bashrc
     docker:
       - image: hashicorp/terraform:light
     steps:
