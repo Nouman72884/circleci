@@ -8,8 +8,9 @@ jobs:
       - run:
           name: terraform init & plan
           command: |
+            cd environment
             terraform init 
-            terraform plan --var-file=config/dev.tfvars
+            terraform plan --var-file=dev.tfvars
 
   apply:
     docker:
@@ -19,7 +20,8 @@ jobs:
       - run:
           name: terraform
           command: |
-            terraform apply --var-file=config/dev.tfvars
+            cd environment
+            terraform apply --var-file=dev.tfvars
 
   build:
     docker:
@@ -66,6 +68,10 @@ workflows:
           context: prod
           requires:
             - hold-apply
+          filters:
+            branches:
+              only: 
+                - master
 
   plan_approve_apply_dev:
     jobs:
@@ -79,6 +85,10 @@ workflows:
           context: dev
           requires:
             - hold-apply
+          filters:
+            branches:
+              only: 
+                - dev
 
   build_master:
     jobs:
