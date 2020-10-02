@@ -60,14 +60,24 @@ workflows:
     jobs:
       - init-plan:
           context: prod
+          filters:
+            branches:
+              only: 
+                - master
       - hold-apply:
           type: approval
           requires:
             - init-plan
       - apply:
           context: prod
+          filters:
+            branches:
+              only: 
+                - master
           requires:
             - hold-apply
+      - build:
+          context: prod
           filters:
             branches:
               only: 
@@ -77,33 +87,29 @@ workflows:
     jobs:
       - init-plan:
           context: dev
+          filters:
+            branches:
+              only: 
+                - dev
       - hold-apply:
           type: approval
           requires:
             - init-plan
       - apply:
           context: dev
-          requires:
-            - hold-apply
           filters:
             branches:
               only: 
                 - dev
-
-  build_master:
-    jobs:
-      - build:
-          context: prod
-          filters:
-            branches:
-              only: 
-                - master
-  build_dev:
-    jobs:
+          requires:
+            - hold-apply
       - build:
           context: dev
           filters:
             branches:
               only: 
                 - dev
+
+  
+      
                 
