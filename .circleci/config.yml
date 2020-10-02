@@ -33,6 +33,7 @@ jobs:
           name: terraform create destroy plan
           command: |
             cd environment
+            terraform init
             terraform plan -destroy -out tfdestroy -var-file dev.tfvars
   
   destroy:
@@ -44,6 +45,7 @@ jobs:
           name: terraform destroy
           command: |
             cd environment
+            terraform init
             terraform apply -auto-approve tfdestroy
 
   build:
