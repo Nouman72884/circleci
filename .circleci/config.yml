@@ -24,6 +24,26 @@ jobs:
             terraform init
             terraform apply -var-file dev.tfvars -auto-approve
 
+  plan-destroy:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - run:
+          name: terraform create destroy plan
+          command: |
+            terraform plan -destroy -out tfdestroy -var-file dev.tfvars
+  
+  destroy:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform destroy
+          command: |
+            terraform apply -auto-approve tfdestroy
+
   build:
     docker:
       - image: alpine
@@ -85,6 +105,16 @@ workflows:
                 - master
           requires:
             - apply
+      - plan-destroy:
+          requires:
+            - apply
+      - hold-destroy:
+          type: approval
+          requires:
+            - plan-destroy
+      - destroy:
+          requires:
+            - hold-destroy
 
   plan_approve_apply_dev:
     jobs:
@@ -114,6 +144,16 @@ workflows:
                 - dev
           requires:
             - apply
+      - plan-destroy:
+          requires:
+            - apply
+      - hold-destroy:
+          type: approval
+          requires:
+            - plan-destroy
+      - destroy:
+          requires:
+            - hold-destroy
 
   
       
