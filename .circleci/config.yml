@@ -28,6 +28,7 @@ jobs:
     docker:
       - image: hashicorp/terraform:light
     steps:
+      - checkout
       - run:
           name: terraform create destroy plan
           command: |
@@ -38,11 +39,11 @@ jobs:
     docker:
       - image: hashicorp/terraform:light
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
           name: terraform destroy
           command: |
+            cd environment
             terraform apply -auto-approve tfdestroy
 
   build:
