@@ -125,6 +125,7 @@ workflows:
           requires:
             - apply
       - plan-destroy:
+          context: prod
           requires:
             - apply
       - hold-destroy:
@@ -132,6 +133,7 @@ workflows:
           requires:
             - plan-destroy
       - destroy:
+          context: prod
           requires:
             - hold-destroy
 
