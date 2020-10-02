@@ -82,6 +82,8 @@ workflows:
             branches:
               only: 
                 - master
+          requires:
+            - apply
 
   plan_approve_apply_dev:
     jobs:
@@ -109,6 +111,8 @@ workflows:
             branches:
               only: 
                 - dev
+          requires:
+            - apply
 
   
       

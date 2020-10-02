@@ -4,4 +4,3 @@ variable "AutoScalingGroup" {}
 variable "EnvName" {}
 variable "KeyPair" {}
 variable "AMI" {}
-}
