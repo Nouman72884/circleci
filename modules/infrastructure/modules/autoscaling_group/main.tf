@@ -1,5 +1,5 @@
 data "template_file" "userdata_eurus" {
-  template=templatefile("template/userdata_eurus.sh", {
+  template=templatefile("${path.module}/template/userdata_eurus.sh", {
    EcsClusterName = var.EcsClusterName
 })
 }
