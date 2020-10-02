@@ -1,5 +1,26 @@
 version: 2.1
 jobs:
+  init-plan:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform init & plan
+          command: |
+            terraform init 
+            terraform plan --var-file=config/dev.tfvars
+
+  apply:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform
+          command: |
+            terraform apply --var-file=config/dev.tfvars
+
   build:
     docker:
       - image: alpine
@@ -18,18 +39,14 @@ jobs:
           command: | 
             REGION="us-east-1"
             ECR_URL="020046395185.dkr.ecr.$REGION.amazonaws.com/circleci-demo"
-            export BUILD_NUMBER="$(echo $CIRCLE_SHA1 | head -c 8)"
-            echo "${BUILD_NUMBER}"
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020046395185.dkr.ecr.us-east-1.amazonaws.com
-            docker build -t $ECR_URL:${BUILD_NUMBER} .
-            docker push $ECR_URL:${BUILD_NUMBER} 
-            printenv
+            docker build -t $ECR_URL:$CIRCLE_SHA1 .
+            docker push $ECR_URL:$CIRCLE_SHA1 
+            
       - run: 
           name: create task-definition
           command: |
-            env
-            echo "build numbe is: ${BUILD_NUMBER}"
-            sed -i -e "s/TAG/${BUILD_NUMBER}/g" task-definition.json
+            sed -i -e "s/TAG/$CIRCLE_SHA1/g" task-definition.json
             aws ecs register-task-definition --cli-input-json file://task-definition.json
       - run: 
           name: create service
@@ -37,6 +54,32 @@ jobs:
             aws ecs create-service --cli-input-json file://service.json          
 workflows:
   version: 2.1
+  plan_approve_apply_master:
+    jobs:
+      - init-plan:
+          context: prod
+      - hold-apply:
+          type: approval
+          requires:
+            - init-plan
+      - apply:
+          context: prod
+          requires:
+            - hold-apply
+
+  plan_approve_apply_dev:
+    jobs:
+      - init-plan:
+          context: dev
+      - hold-apply:
+          type: approval
+          requires:
+            - init-plan
+      - apply:
+          context: dev
+          requires:
+            - hold-apply
+
   build_master:
     jobs:
       - build:
